@@ -16,10 +16,9 @@ defmodule Dmarc do
       |> List.first()
 
 
-      if record != nil do
-        {:ok, to_string(record.data)}
-      else
-        {:error, :no_dmarc_record}
+      case record do
+        record when record != nil -> {:ok, to_string(record.data)}
+        nil -> {:error, :no_dmarc_record}
       end
     else
       {:error, :no_txt_record}
