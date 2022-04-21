@@ -42,7 +42,19 @@ defmodule Dmarc do
       nil -> {:error, :no_policy}
       dmarc_policy ->
         ["p", policy] = dmarc_policy |> String.split("=")
-        {:ok, policy}
+
+        case policy do
+          "reject" -> {:ok, :reject}
+          "quarantine" -> {:ok, :quarantine}
+          "none" -> {:ok, :none}
+          _ -> {:error, :unknown_policy}
+        end
     end
+  end
+
+  def process_dmarc_policy(domain) do
+    domain
+    |> fetch_dmarc_record()
+    ~>> fetch_dmarc_record_policy()
   end
 end
