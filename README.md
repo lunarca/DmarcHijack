@@ -1,4 +1,4 @@
-# AlignmentHijacker
+# DmarcHijack
 
 **TODO: Add description**
 
@@ -10,7 +10,7 @@ by adding `alignment_hijacker` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:alignment_hijacker, "~> 0.1.0"}
+    {:dmarc_hijack, "~> 0.1.0"}
   ]
 end
 ```

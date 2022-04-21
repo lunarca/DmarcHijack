@@ -1,9 +1,9 @@
-defmodule AlignmentHijacker.MixProject do
+defmodule DmarcHijack.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :alignment_hijacker,
+      app: :dmarc_hijack,
       version: "0.1.0",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
