@@ -1,18 +1,5 @@
 defmodule AlignmentHijacker do
   @moduledoc """
-  Documentation for `AlignmentHijacker`.
+  Main module to start alignment hijacker
   """
-
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> AlignmentHijacker.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
 end
