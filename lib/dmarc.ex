@@ -34,9 +34,15 @@ defmodule Dmarc do
 
 
   def fetch_dmarc_record_policy(dmarc_record) do
-    [policy, _] = dmarc_record
+    case dmarc_record
     |> String.split(";")
     |> Enum.map(fn element -> String.trim(element) end)
     |> Enum.filter(fn element -> String.starts_with?(element, "p=") end)
+    |> List.first() do
+      nil -> {:error, :no_policy}
+      dmarc_policy ->
+        ["p", policy] = dmarc_policy |> String.split("=")
+        {:ok, policy}
+    end
   end
 end
