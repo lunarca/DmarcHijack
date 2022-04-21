@@ -17,8 +17,9 @@ defmodule Dmarc do
 
 
       case record do
-        record when record != nil -> {:ok, to_string(record.data)}
+        %{data: data} -> {:ok, to_string(data)}
         nil -> {:error, :no_dmarc_record}
+        _ -> {:error, :unknown_error}
       end
     else
       {:error, :no_txt_record}
