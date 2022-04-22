@@ -14,16 +14,8 @@ defmodule DmarcHijack.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger]
-    ]
-  end
-
-  defp poolboy_config do
-    [
-      name: {:local, :worker},
-      worker_module: DmarcHijack.Worker,
-      size: 5,
-      max_overflow: 2
+      extra_applications: [:logger],
+      mod: {DmarcHijack.Application, []}
     ]
   end
 
@@ -40,7 +32,6 @@ defmodule DmarcHijack.MixProject do
 
   def start(_type, _args) do
     children = [
-      :poolboy.child_spec(:worker, poolboy_config())
     ]
 
     opts = [strategy: :one_for_one, name: DmarcHijack.Supervisor]
