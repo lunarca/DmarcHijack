@@ -23,7 +23,7 @@ defmodule DmarcHijack.ResultsBucket do
   Return the whole state map
   """
   def getAll() do
-    {:ok, Agent.get(__MODULE__, fn state -> state end)}
+    Agent.get(__MODULE__, fn state -> state end)
   end
 
   def add(domain, result, policy) do
