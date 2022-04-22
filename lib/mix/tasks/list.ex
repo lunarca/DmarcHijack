@@ -7,6 +7,8 @@ defmodule Mix.Tasks.List do
 
   alias DmarcHijack.ResultsBucket
 
+  require Logger
+
   use Mix.Task
 
   @impl Mix.Task
@@ -19,14 +21,17 @@ defmodule Mix.Tasks.List do
     |> String.split("\n")
     |> Enum.map(&setup_task/1)
     |> Enum.map(&await_task/1)
-    |> Enum.map(&log_in_agent/1)
 
-    results = ResultsBucket.getAll()
+    all_results = ResultsBucket.getAll()
     |> Map.to_list()
+
+    File.write!("all-results.txt", all_results)
+
+    all_results
     |> Enum.filter(fn {_domain, {_response, policy}} -> policy == :none end)
     |> IO.inspect()
 
-    results
+    all_results
   end
 
 
@@ -35,14 +40,21 @@ defmodule Mix.Tasks.List do
       :poolboy.transaction(
         :worker,
         fn pid ->
-          GenServer.call(pid, {:fetch_process_dmarc, domain})
+          try do
+            GenServer.call(pid, {:fetch_process_dmarc, domain})
+          catch :exit, reason ->
+            # Handle timeout
+            Logger.warn("Probably just got a timeout on #{domain}. Real reason follows:")
+            Logger.warn(inspect(reason))
+            {domain, {:error, :timeout}}
+          end
         end,
         @timeout
       )
     end)
   end
 
-  defp await_task(task), do: task |> Task.await(@timeout)
+  defp await_task(task), do: task |> Task.await(@timeout) |> log_in_agent()
 
   defp log_in_agent({domain, {response_code, result}}) do
     ResultsBucket.add(domain, response_code, result)
