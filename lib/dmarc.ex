@@ -2,8 +2,21 @@ import OK, only: :macros
 
 defmodule Dmarc do
   def fetch_dmarc_record(domain) do
-    DNS.query("_dmarc.#{domain}", :txt)
+    DNS.query("_dmarc.#{domain}", :txt, {select_random_dns_server(), 53})
     |> extract_dmarc_record_from_txt()
+  end
+
+  def select_random_dns_server() do
+    Enum.random([
+      "8.8.8.8",
+      "8.8.4.4",
+      "9.9.9.9",
+      "149.112.112.112",
+      "208.67.222.222",
+      "208.67.220.220",
+      "1.1.1.1",
+      "1.0.0.1"
+    ])
   end
 
   @spec extract_dmarc_record_from_txt(map) ::

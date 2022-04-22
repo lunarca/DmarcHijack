@@ -1,5 +1,5 @@
 defmodule Mix.Tasks.List do
-  @timeout 60000
+  @timeout 600
   @moduledoc "Check the DMARC record for a list of domains"
   @shortdoc "Check the DMARC record for a list of domains"
 
@@ -44,8 +44,8 @@ defmodule Mix.Tasks.List do
             GenServer.call(pid, {:fetch_process_dmarc, domain})
           catch :exit, reason ->
             # Handle timeout
-            Logger.warn("Probably just got a timeout on #{domain}. Real reason follows:")
-            Logger.warn(inspect(reason))
+            Logger.warning("Probably just got a timeout on #{domain}. Real reason follows:")
+            Logger.warning(inspect(reason))
             {domain, {:error, :timeout}}
           end
         end,
