@@ -13,7 +13,7 @@ defmodule DmarcHijack.Worker do
 
   def handle_call({:fetch_process_dmarc, domain}, _from, state) do
     # Logger.info("Processing DMARC record for #{domain}")
-    results = Dmarc.process_dmarc_policy(domain)
+    results = {domain, Dmarc.process_dmarc_policy(domain)}
     # Logger.info("Found results for #{domain}: #{results}")
 
     {:reply, results, state}

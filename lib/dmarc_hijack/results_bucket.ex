@@ -15,7 +15,7 @@ defmodule DmarcHijack.ResultsBucket do
   def get(domain) do
     case Agent.get(__MODULE__, fn state -> Map.get(state, domain) end) do
       nil -> {:error, :not_available}
-      results -> results
+      results -> {:ok, results}
     end
   end
 
