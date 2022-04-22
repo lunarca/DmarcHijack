@@ -1,4 +1,4 @@
-# require Logger
+require Logger
 
 defmodule DmarcHijack.Worker do
   use GenServer
@@ -12,9 +12,9 @@ defmodule DmarcHijack.Worker do
   end
 
   def handle_call({:fetch_process_dmarc, domain}, _from, state) do
-    # Logger.info("Processing DMARC record for #{domain}")
+    Logger.info("Processing DMARC record for #{domain}")
     results = {domain, Dmarc.process_dmarc_policy(domain)}
-    # Logger.info("Found results for #{domain}: #{results}")
+    Logger.info("Found results for #{domain}: #{inspect(results)}")
 
     {:reply, results, state}
   end
