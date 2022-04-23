@@ -12,7 +12,7 @@ defmodule Mix.Tasks.List do
   use Mix.Task
 
   @impl Mix.Task
-  def run([filepath]) when filepath != "" do
+  def run([filepath, output_filename]) when filepath != nil and output_filename != nil do
     IO.puts("Searching for DMARC misconfigurations for all domains in #{filepath}")
 
     file_contents = File.read!(filepath)
@@ -27,7 +27,7 @@ defmodule Mix.Tasks.List do
 
     string_contents = all_results |> Enum.map(fn {domain, {_, result}} -> inspect({domain, inspect(result)}) end)
 
-    File.write!("all-results.txt", Enum.join(string_contents, "\n"))
+    File.write!("results/#{output_filename}", Enum.join(string_contents, "\n"))
 
     all_results
     |> Enum.filter(fn {_domain, {_response, policy}} -> policy == :none end)
@@ -36,6 +36,9 @@ defmodule Mix.Tasks.List do
     all_results
   end
 
+  def run(_) do
+    IO.puts("Usage: `mix list input_domain_list output_filename`")
+  end
 
   defp setup_task(domain) do
     Task.async(fn ->
