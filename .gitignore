@@ -28,3 +28,5 @@ alignment_hijacker-*.tar
 # Default file for alexa top 1m domains
 top-1m.csv
 top-1m-domains.txt
+
+/.elixir_ls
