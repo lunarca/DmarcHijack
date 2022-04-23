@@ -1,6 +1,6 @@
 # DmarcHijack
 
-Find domains vulnerable to From/MailFrom confusion. This can lead to email spoofing.
+Find domains DMARC policies vulnerable to From/MailFrom confusion. This can lead to email spoofing.
 
 ## Usage
 
