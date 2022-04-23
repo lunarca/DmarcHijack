@@ -4,5 +4,3 @@ COPY . .
 
 RUN mix local.hex --force
 RUN mix deps.get
-
-ENTRYPOINT mix help
