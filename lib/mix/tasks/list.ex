@@ -1,5 +1,5 @@
 defmodule Mix.Tasks.List do
-  @timeout 600
+  @timeout 60_000
   @moduledoc "Check the DMARC record for a list of domains"
   @shortdoc "Check the DMARC record for a list of domains"
 
@@ -25,7 +25,7 @@ defmodule Mix.Tasks.List do
     all_results = ResultsBucket.getAll()
     |> Map.to_list()
 
-    File.write!("all-results.txt", all_results)
+    File.write!("all-results.txt", inspect(all_results))
 
     all_results
     |> Enum.filter(fn {_domain, {_response, policy}} -> policy == :none end)

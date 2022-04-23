@@ -1,9 +1,18 @@
 import OK, only: :macros
 
+require Logger
+
 defmodule Dmarc do
   def fetch_dmarc_record(domain) do
-    DNS.query("_dmarc.#{domain}", :txt, {select_random_dns_server(), 53})
-    |> extract_dmarc_record_from_txt()
+    try do
+      DNS.query("_dmarc.#{domain}", :txt, {select_random_dns_server(), 53})
+      |> extract_dmarc_record_from_txt()
+    catch error ->
+        Logger.error(error)
+        {:error, :timeout}
+
+    end
+
   end
 
   def select_random_dns_server() do
