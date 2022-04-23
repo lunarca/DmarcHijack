@@ -36,6 +36,9 @@ defmodule Mix.Tasks.List do
     all_results
   end
 
+  def run(_) do
+    IO.puts("Usage: `mix list input_domain_list output_filename`")
+  end
 
   defp setup_task(domain) do
     Task.async(fn ->
