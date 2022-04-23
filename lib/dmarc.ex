@@ -7,8 +7,7 @@ defmodule Dmarc do
     try do
       DNS.query("_dmarc.#{domain}", :txt, {select_random_dns_server(), 53})
       |> extract_dmarc_record_from_txt()
-    catch error ->
-        Logger.error(error)
+    catch _, _ ->
         {:error, :timeout}
 
     end
