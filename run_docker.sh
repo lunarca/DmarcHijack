@@ -20,5 +20,5 @@ if [[ ! -d "results" ]]; then
 fi
 
 docker run --rm -it \
-    -v $PWD/results:/dmarc_hijack/results \
+    -v $PWD/results:/app/results \
     dmarc_hijack mix "$@"
