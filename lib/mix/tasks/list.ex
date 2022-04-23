@@ -25,7 +25,9 @@ defmodule Mix.Tasks.List do
     all_results = ResultsBucket.getAll()
     |> Map.to_list()
 
-    File.write!("all-results.txt", inspect(all_results))
+    string_contents = all_results |> Enum.map(fn {domain, {_, result}} -> inspect({domain, inspect(result)}) end)
+
+    File.write!("all-results.txt", Enum.join(string_contents, "\n"))
 
     all_results
     |> Enum.filter(fn {_domain, {_response, policy}} -> policy == :none end)

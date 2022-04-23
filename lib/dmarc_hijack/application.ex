@@ -5,7 +5,7 @@ defmodule DmarcHijack.Application do
     [
       name: {:local, :worker},
       worker_module: DmarcHijack.Worker,
-      size: 5,
+      size: 16,
       max_overflow: 5
     ]
   end
